@@ -2,8 +2,8 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   // (plus tard) Auth par clé API:
-  // const key = req.headers['x-api-key'];
-  // if (process.env.API_KEY && key !== process.env.API_KEY) return res.status(401).json({ error: 'Unauthorized' });
+   const key = req.headers['x-api-key'];
+   if (process.env.API_KEY && key !== process.env.API_KEY) return res.status(401).json({ error: 'Unauthorized' });
 
   const response = {
     winner: "ExactName",
