@@ -2,10 +2,14 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   // (plus tard) Auth par clé API:
-   const key = req.headers['x-api-key'];
-   if (process.env.API_KEY && key !== process.env.API_KEY) {
-     return res.status(401).json({ error: 'Unauthorized' });
+  const headerKey = req.headers['x-api-key'];
+const auth = req.headers['authorization'];
+const bearer = auth && auth.startsWith('Bearer ') ? auth.slice(7) : null;
+const provided = headerKey || bearer;
+if (process.env.API_KEY && provided !== process.env.API_KEY) {
+  return res.status(401).json({ error: 'Unauthorized' });
 }
+
   const response = {
     winner: "ExactName",
     runner_up: "Luminaut",
